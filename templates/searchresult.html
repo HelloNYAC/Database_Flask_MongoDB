@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}New Page{% endblock %}
+{% block content %}
+  <h2 tabindex="-1">Search Result</h2>
+ <table class="table">
+    <thead class="table__thead">
+      <tr>
+          <th>Number</th>
+        <th>Incident Number</th>
+        <th>Incident Types</th>
+        <th>Reported Date</th>
+        <th>Nearest Populated Centre</th>
+        <th>Province</th>
+        <th>Company</th>
+        <th>Substance</th>
+          <th>Significant</th>
+          <th>What happened category</th>
+          <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if results %}
+      {% for d in results %}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td name="incident_number">{{d['Incident Number']}}</td>
+              <td>{{d['Incident Types']}}</td>
+              <td>{{d['Reported Date']}}</td>
+              <td>{{d['Nearest Populated Centre']}}</td>
+              <td>{{d['Province']}}</td>
+              <td>{{d['Company']}}</td>
+              <td>{{d['Substance']}}</td>
+              <td>{{d['Significant']}}</td>
+              <td>{{d['What happened category']}}</td>
+              <td>
+                <td>
+                    <span style="font-size: 24px; color: green;">
+                        <a href="{{d['Incident Number']}}/update"> <i class= "fas fa-edit"></i></a>
+                    </span>
+                    <span style="font-size: 24px; color: green;">
+                        <a href="{{d['Incident Number']}}/delete"> <i class= "fas fa-trash-alt"></i></a>
+                    </span>
+                </td>
+              </td>
+              </tr>
+              {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+</p>
+{% endblock %}

@@ -15,6 +15,7 @@ import certifi
 import csv
 from .view import View
 from .models import Record
+import pandas as pd
 
 
 # Confroller is the class where the project is connected to database and fetch data as requiered from the database
@@ -51,6 +52,34 @@ class Controller():
                    '_id': 0}
         datum = col.find({}, myQuery)
         return datum
+
+    def all_in_df(self):
+        incident_num = []
+        incident_typ = []
+        report_date = []
+        nearest_centre = []
+        province = []
+        company = []
+        substance = []
+        significant = []
+        category = []
+        data = self.get_all().limit(100)
+        for dt in data:
+            incident_num.append(dt['Incident Number'])
+            incident_typ.append(dt['Incident Types'])
+            report_date.append(dt['Reported Date'])
+            nearest_centre.append(dt['Nearest Populated Centre'])
+            province.append(dt['Province'])
+            company.append((dt['Company']))
+            substance.append(dt['Substance'])
+            significant.append(dt['Significant'])
+            category.append(dt['What happened category'])
+            df = pd.DataFrame(
+                {'Incident Number': incident_num, 'Incident Types': incident_typ, 'Reported Date': report_date,
+                 'Nearest Populated Centre': nearest_centre,
+                 'Province': province, 'Company': company, 'Substance': substance, 'Significant': significant,
+                 'What happened category': category})
+        return df
 
     def data_init(self):
         '''
@@ -91,7 +120,7 @@ class Controller():
         count = col.count_documents({})
         return count
 
-    def update_record(self, toUpdate):
+    def update_record(self, rec):
         '''
         this is to connect to database and provide the collection name you would like to work with
         then update selected record from database
@@ -99,12 +128,16 @@ class Controller():
         :return:
         '''
         col = self.db_connect()['pipeline']
-        new_rc = toUpdate.split(",")
-        show_pre = col.count_documents({"Reported Date": new_rc[1]})
-        print("Current search for Incident Number as ", new_rc[0], " is: ", show_pre)
-        col.update_one({"Incident Number": new_rc[0]}, {"$set": {"Reported Date": new_rc[1]}})
-        show = col.count_documents({"Reported Date": new_rc[1]})
-        print("After update, the search for Incident Number ", new_rc[0], " is: ", show)
+        col.update_one({"Incident Number": rec.incident_num},
+                       {"$set": {"Incident Types": rec.incident_typ,
+                                 "Reported Date": rec.report_date,
+                                 "Nearest Populated Centre": rec.nearest_centre,
+                                 "Province": rec.province,
+                                 "Company": rec.company,
+                                 "Substance": rec.substance,
+                                 "Significant": rec.significant,
+                                 "What happened category": rec.category
+                                 }})
 
     def search_record(self, str):
         '''
@@ -119,7 +152,15 @@ class Controller():
         else:
             return temp
 
-    def delete_record(self, toDelete):
+    def record_eixsing_to_insert(self, str):
+        temp = self.search_record(str)
+        count = col.count_documents({"Incident Number": str})
+        if count > 0:
+            return print(f"Record already exist. Please enter another Incident Number")
+        else:
+            return temp
+
+    def delete_record(self, inc_num):
         '''
         this is to connect to database and provide the collection name you would like to work with
         then delete selected record from database
@@ -127,12 +168,7 @@ class Controller():
         :return:
         '''
         col = self.db_connect()['pipeline']
-        new_rc = toDelete.split(",")
-        show_pre = col.count_documents({})
-        print("Before delete, the total records in database is ", show_pre)
-        col.find_one_and_delete({"Incident Number": new_rc[0]})
-        show = col.count_documents({})
-        print("After delete, he total records in database is  ", show)
+        col.find_one_and_delete({"Incident Number": inc_num})
 
     def main(self):
         '''
@@ -155,8 +191,23 @@ this runs the program
 #     c.main()
 
 c = Controller()
-c.db_connect()
-t = c.search_record("INC2007-097")
+db = c.db_connect()
+col = db['pipeline']
+# print(c.all_in_df())
+# t = c.search_record("INC2007-097")
+# c.update_record()
+# print(type(t))
+# for i in t:
+#     print(i["Incident Number"])
+#
+# c.record_eixsing_to_insert("INC2007-097")
+# results = col.find({"$or": [
+#     {"Province": "Ontario"},
+#     {"Significant": "yes"},
+# ]})
+# for r in results:
+#     print(r)
+
 # print(type(t))
 # for i in t:
 #     print(i)

@@ -1,63 +1,17 @@
 {% extends "base.html" %}
 {% block title %}New Page{% endblock %}
 {% block content %}
-  <h2 tabindex="-1">Add A Record to Database</h2>
-<p action="#", method="POST">
-<form>
-    <p>Please enter an Incident Number to search for record
-        </br>
-    <input type="text" name="inc_num" placeholder="Enter Incident Number" value="{{inc_num if inc_num}}"/>
-    </p>
-    <div class="field__wrapper">
-        <button type="submit" name="submit" class="table__load border-radius transition-btn" id="search" value="search">Search</button>
-      </div>
-    </form>
- <table class="table">
-    <thead class="table__thead">
-      <tr>
-          <th>Number</th>
-        <th>Incident Number</th>
-        <th>Incident Types</th>
-        <th>Reported Date</th>
-        <th>Nearest Populated Centre</th>
-        <th>Province</th>
-        <th>Company</th>
-        <th>Substance</th>
-          <th>Significant</th>
-          <th>What happened category</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% if data %}
-      {% for d in data %}
-            <tr>
-              <form class="form_metric" method="POST">
-              <td>{{loop.index}}</td>
-              <td>{{d['Incident Number']}}</td>
-                  <td>{{d['Incident Types']}}</td>
-                  <td>{{d['Reported Date']}}</td>
-                  <td>{{d['Nearest Populated Centre']}}</td>
-                  <td>{{d['Province']}}</td>
-                  <td>{{d['Company']}}</td>
-                  <td>{{d['Substance']}}</td>
-                  <td>{{d['Significant']}}</td>
-                  <td>{{d['What happened category']}}</td>
-              {% endfor %}
-                  <td>
-                <div class="table__edit-remove-btns show">
-                  <button class="table__edit border-radius transition-btn" type="button" name="edit-button">Edit</button>
-              </div>
-              <div class="table__update-cancel-btns hide">
-                <form action="{{ url_for('search') }}" method="POST">
-                  <button class="table__update border-radius transition-btn" type="submit" name="update-button">Update</button>
-                </form>
-                  <button class="table__cancel border-radius transition-btn" type="button" name="cancel-button">Cancel</button>
-              </div>
-              </td>
-            </form>
-            </tr>
-      {% endif %}
-    </tbody>
-  </table>
-</p>
+  <h2 tabindex="-1">Search A Record in Database</h2>
+<form action="", method="POST">
+    Enter Incident Number <input type="text" name="incident_number" placeholder="Enter Incident Number to search"><br><br>
+    Enter Incident Type <input type="text" name="incident_type" placeholder="Enter Incident Type to search"><br><br>
+    Enter Reported Date <input type="text" name="reported_date" placeholder="Enter Reported Date to search"><br><br>
+    Enter Nearest Population Center <input type="text" name="pop_center" placeholder="Enter Nearest Population Center to search"><br><br>
+    Select Province <input type="text" name="province" placeholder="Enter Province to search"><br><br>
+    Enter Company <input type="text" name="company" placeholder="Enter Company to search"><br><br>
+    Enter Substance <input type="text" name="substance" placeholder="Enter Substance to search"><br><br>
+    Choose Significant <input type="text" name="significant" placeholder="Enter Significant to search"><br><br>
+    Enter Category <input type="text" name="category" placeholder="Enter Category to search"><br><br>
+    <input type="submit" placeholder="submit">
+</form>
 {% endblock %}
