@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}New Page{% endblock %}
+{% block content %}
+  <h2 tabindex="-1">Display All Data in Database</h2>
+  <table class="table">
+    <thead class="table__thead">
+      <tr>
+          <th>Number</th>
+        <th>Incident Number</th>
+        <th>Incident Types</th>
+        <th>Reported Date</th>
+        <th>Nearest Populated Centre</th>
+        <th>Province</th>
+        <th>Company</th>
+        <th>Substance</th>
+          <th>Significant</th>
+          <th>What happened category</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if data %}
+      {% for d in data %}
+            <tr>
+              <form class="form_metric" method="POST">
+              <td>{{loop.index}}</td>
+              <td>{{d['Incident Number']}}</td>
+                  <td>{{d['Incident Types']}}</td>
+                  <td>{{d['Reported Date']}}</td>
+                  <td>{{d['Nearest Populated Centre']}}</td>
+                  <td>{{d['Province']}}</td>
+                  <td>{{d['Company']}}</td>
+                  <td>{{d['Substance']}}</td>
+                  <td>{{d['Significant']}}</td>
+                  <td>{{d['What happened category']}}</td>
+              {% endfor %}
+            </form>
+            </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endblock %}
