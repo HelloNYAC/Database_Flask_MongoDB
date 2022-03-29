@@ -193,6 +193,9 @@ this runs the program
 c = Controller()
 db = c.db_connect()
 col = db['pipeline']
+df = c.all_in_df()
+temp = pd.DatetimeIndex(df['Reported Date']).year
+print(temp[0], temp[1])
 # print(c.all_in_df())
 # t = c.search_record("INC2007-097")
 # c.update_record()

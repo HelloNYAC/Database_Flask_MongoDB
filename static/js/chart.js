@@ -1,8 +1,8 @@
     var graph1 = {{graph1JSON | safe}};
-    Ploty.plot("chart1", graph1, {})
+    Plotly.plot("chart1", graph1, {})
 
     var graph2 = {{graph3JSON | safe}};
-    Ploty.plot("chart2", graph2, {})
+    Plotly.plot("chart2", graph2, {})
 
     var graph3 = {{graph3JSON | safe}};
-    Ploty.plot("chart3", graph3, {})
+    Plotly.plot("chart3", graph3, {})
