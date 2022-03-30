@@ -5,7 +5,7 @@
 # Student name: Nicole Yue
 # Student ID: 040991455
 # Student Email: yue00015@algonquinlive.com
-# Assignment 3
+# Assignment 4
 
 # this is the object constructor with all parameters needed to create one row of the table
 # It included all rows listed as required, including:

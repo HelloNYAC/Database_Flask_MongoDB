@@ -1,30 +1,32 @@
 {% extends "base.html" %}
 {% block title %}New Page{% endblock %}
 {% block content %}
-<h2 tabindex="-1">Add A Record to Database</h2>
+<div class="site-header-logo">
+<h1 class="text-center" style="margin-bottom: 30px">Add A Record to Database</h1>
+</div>
 <div class="container">
-    <form method="post" action="">
+    <form method="post" action="" style="margin-left: 30%; width: 130%">
     <table>
         <tr>
             <td>Incident Number</td>
-            <td><input type="text" name="incident_number" class="form-control" placeholder="Enter Incident Number"> </td>
+            <td><input type="text" name="incident_number" class="form-control" style="margin-bottom: 8px" placeholder="Enter Incident Number"> </td>
         </tr>
         <tr>
             <td>Incident Types</td>
-            <td><input type="text" name="incident_type" class="form-control" placeholder="Enter Incident Types"> </td>
+            <td><input type="text" name="incident_type" class="form-control" style="margin-bottom: 8px" placeholder="Enter Incident Types"> </td>
         </tr>
         <tr>
             <td>Reported Date</td>
-            <td><input type="date" name="reported_date" class="form-control" placeholder="Enter Reported Date"> </td>
+            <td><input type="date" name="reported_date" class="form-control" style="margin-bottom: 8px"  placeholder="Enter Reported Date"> </td>
         </tr>
         <tr>
             <td>Nearest Populated Centre</td>
-            <td><input type="text" name="pop_center" class="form-control" placeholder="Enter Nearest Populated Centre"> </td>
+            <td><input type="text" name="pop_center" class="form-control" style="margin-bottom: 8px"  placeholder="Enter Nearest Populated Centre"> </td>
         </tr>
         <tr>
             <td>Province</td>
             <td>
-                <select name="province" class="form-control">
+                <select name="province" class="form-control" style="margin-bottom: 8px" >
                     <option value="go_select">Select A Province</option>
                     <option value="alberta">Alberta</option>
                     <option value="british_columbia">British Columbia</option>
@@ -44,22 +46,22 @@
         </tr>
         <tr>
             <td>Company</td>
-            <td><input type="text" name="company" class="form-control" placeholder="Enter Company Name"> </td>
+            <td><input type="text" name="company" class="form-control" style="margin-bottom: 8px"  placeholder="Enter Company Name"> </td>
         </tr>
         <tr>
             <td>Substance</td>
-            <td><input type="text" name="substance" class="form-control" placeholder="Enter Substance Name"> </td>
+            <td><input type="text" name="substance" class="form-control" style="margin-bottom: 10px"  placeholder="Enter Substance Name"> </td>
         </tr>
         <tr>
             <td>Significant</td>
             <td>
-                Yes: <input type="radio" name="significant" value="yes">
-                No: <input type="radio" name="significant" value="no">
+                Yes: <input type="radio" name="significant" value="yes" style="margin-bottom: 10px" >
+                No: <input type="radio" name="significant" value="no" style="margin-bottom: 10px" >
             </td>
         </tr>
         <tr>
             <td>What happened category</td>
-            <td><input type="text" name="category" class="form-control" placeholder="Enter What happened category"> </td>
+            <td><input type="text" name="category" class="form-control" style="margin-bottom: 8px"  placeholder="Enter What happened category"> </td>
         </tr>
         <tr>
             <td colspan="2">

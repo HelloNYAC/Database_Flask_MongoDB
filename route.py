@@ -1,22 +1,25 @@
+# CST8333 - Programing Research Project
+# Section: 350
+# Semester: 22W
+# Professor: Leanne Seaward
+# Student name: Nicole Yue
+# Student ID: 040991455
+# Student Email: yue00015@algonquinlive.com
+# Assignment 4
+
 import pandas as pd
 from flask import Flask, redirect, url_for, render_template, request, session, flash, json
 from application.controller import Controller
 from application.models import Record
 import plotly.express as px
 import json
-import json
 import plotly
-import plotly.graph_objects as go
-import numpy as np
+
 
 app = Flask(__name__)
-# app.config.from_object(__name__)
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
-
-# c = Controller().db_connect()
-# db = Controller.get_all(c)
 
 @app.route("/")
 @app.route("/home/")
@@ -155,87 +158,23 @@ def update(inc_num):
 @app.route("/chart")
 def chart():
     c = Controller()
-    db = c.db_connect()
-    df = c.all_in_df()
-    year = extract_year(df)
-    count = {}
-    for i in year:
-        count[i] = year.count(i)
+    inc_num_year = c.incident_per_year()
+    year = []
+    inc_num = []
+    for inc in inc_num_year:
+        year.append(inc[0])
+        inc_num.append(inc[1])
+    df_new = pd.DataFrame({'Incident Per Year': inc_num, 'Reported Year': year})
+    fig1 = px.bar(df_new, x='Reported Year', y='Incident Per Year', orientation="v")
 
-    fig1 = px.bar(df, x='Company', y='Province', color='Incident Types',
-                  barmode='group')
+    fig1.update_layout(
+        width=1100,
+        height=700,
+    )
     graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
-    header1 = "Fig 1"
-    description1 = ""
 
-    fig2 = bar_chart1()
-    out = fig2.to_html(full_html=False)
-    graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template("chart.html", title="Chart", graph1JSON=graph1JSON)
 
-    fig3 = go.Figure(data=[go.Pie(labels=['Reported Date', 'Province', 'Substance', 'Significant'],
-                                  values=['Reported Date', 'Province', 'Substance', 'Significant'])])
-    fig3.update_traces(hoverinfo='label+percent', textinfo='value', textfont_size=20)
-    graph3JSON = json.dumps(fig3, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template("chart.html", title="Chart", graph1JSON=graph1JSON, header1=header1,
-                           description1=description1, graph3JSON=out, graph3JSON=graph3JSON)
-
-def extract_year(df):
-    temp = pd.DatetimeIndex(df['Reported Date']).year
-    year = []
-    for t in temp:
-        year.append(t)
-    return year
-
-def bar_chart1():
-    c = Controller()
-    db = c.db_connect()
-    datum = c.get_all()
-    alberta_count = 0
-    manitoba_count = 0
-    bc_count = 0
-    saskatchewan_count = 0
-    ontario_count = 0
-    new_brunswick_count = 0
-    nova_scotia_count = 0
-    quebec_count = 0
-
-    for data in datum:
-        if data['Province'] == "Alberta":
-            alberta_count += 1
-        elif data['Province'] == "British Columbia":
-            bc_count += 1
-        elif data['Province'] == "Saskatchewan":
-            saskatchewan_count += 1
-        elif data['Province'] == "Manitoba":
-            manitoba_count += 1
-        elif data['Province'] == "Ontario":
-            ontario_count += 1
-        elif data['Province'] == "New Brunswick":
-            new_brunswick_count += 1
-        elif data['Province'] == "Nova Scotia":
-            nova_scotia_count += 1
-        elif data['Province'] == "Quebec":
-            quebec_count += 1
-    x = np.array(
-        ["AB", "BC", "SK", "MB", "ON", "NB", "NS", "QC"])
-    y = np.array([alberta_count, bc_count, saskatchewan_count, manitoba_count, ontario_count, new_brunswick_count,
-                  nova_scotia_count, quebec_count])
-    fig2 = px.bar(x, y)
-    fig2.show()
-    return fig2
-
-def pie_chart():
-    c = Controller()
-    db = c.db_connect()
-    df = c.all_in_df()
-    temp = pd.DatetimeIndex(df['Reported Date']).year
-    year = []
-    for t in temp:
-        year.append(t)
-    x = np.array(
-        ["AB", "BC", "SK", "MB", "ON", "NB", "NS", "QC"])
-    y = np.array([alberta_count, bc_count, saskatchewan_count, manitoba_count, ontario_count, new_brunswick_count,
-                  nova_scotia_count, quebec_count])
 
 @app.route("/<string:inc_num>/delete", methods=["POST", "GET"])
 def delete(inc_num):

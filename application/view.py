@@ -5,7 +5,7 @@
 # Student name: Nicole Yue
 # Student ID: 040991455
 # Student Email: yue00015@algonquinlive.com
-# Assignment 3
+# Assignment 4
 
 # view class is the user interface of the program, it works together with controller to provide functionalities
 class View:

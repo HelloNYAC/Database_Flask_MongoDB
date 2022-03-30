@@ -1,17 +1,19 @@
 {% extends "base.html" %}
 {% block title %}New Page{% endblock %}
 {% block content %}
-  <h2 tabindex="-1">Search A Record in Database</h2>
-<form action="", method="POST">
-    Enter Incident Number <input type="text" name="incident_number" placeholder="Enter Incident Number to search"><br><br>
-    Enter Incident Type <input type="text" name="incident_type" placeholder="Enter Incident Type to search"><br><br>
-    Enter Reported Date <input type="text" name="reported_date" placeholder="Enter Reported Date to search"><br><br>
-    Enter Nearest Population Center <input type="text" name="pop_center" placeholder="Enter Nearest Population Center to search"><br><br>
-    Select Province <input type="text" name="province" placeholder="Enter Province to search"><br><br>
-    Enter Company <input type="text" name="company" placeholder="Enter Company to search"><br><br>
-    Enter Substance <input type="text" name="substance" placeholder="Enter Substance to search"><br><br>
-    Choose Significant <input type="text" name="significant" placeholder="Enter Significant to search"><br><br>
-    Enter Category <input type="text" name="category" placeholder="Enter Category to search"><br><br>
-    <input type="submit" placeholder="submit">
+<div class="site-header-logo">
+<h1 class="text-center" style="margin-bottom: 30px">Search A Record in Database</h1>
+</div>
+<form action="", method="POST" style="margin-left: 30%; width: 130%">
+    Enter Incident Number <input type="text" name="incident_number" placeholder="Enter Incident Number to search" style="margin-bottom: 5px"><br><br>
+    Enter Incident Type <input type="text" name="incident_type" placeholder="Enter Incident Type to search" style="margin-bottom: 5px"><br><br>
+    Enter Reported Date <input type="text" name="reported_date" placeholder="Enter Reported Date to search" style="margin-bottom: 5px"><br><br>
+    Enter Nearest Population Center <input type="text" name="pop_center" placeholder="Enter Nearest Population Center to search" style="margin-bottom: 5px"><br><br>
+    Select Province <input type="text" name="province" placeholder="Enter Province to search" style="margin-bottom: 5px"><br><br>
+    Enter Company <input type="text" name="company" placeholder="Enter Company to search" style="margin-bottom: 5px"><br><br>
+    Enter Substance <input type="text" name="substance" placeholder="Enter Substance to search" style="margin-bottom: 5px"><br><br>
+    Choose Significant <input type="text" name="significant" placeholder="Enter Significant to search" style="margin-bottom: 5px"><br><br>
+    Enter Category <input type="text" name="category" placeholder="Enter Category to search" style="margin-bottom: 5px"><br><br>
+    <input type="submit" placeholder="submit" class="btn btn-warning">
 </form>
 {% endblock %}

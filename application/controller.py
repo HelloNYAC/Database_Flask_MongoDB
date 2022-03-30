@@ -5,9 +5,9 @@
 # Student name: Nicole Yue
 # Student ID: 040991455
 # Student Email: yue00015@algonquinlive.com
-# Assignment 3
+# Assignment 4
 
-
+from datetime import datetime
 import pymongo
 from bson import ObjectId
 from pymongo import MongoClient
@@ -63,7 +63,7 @@ class Controller():
         substance = []
         significant = []
         category = []
-        data = self.get_all().limit(100)
+        data = self.get_all()
         for dt in data:
             incident_num.append(dt['Incident Number'])
             incident_typ.append(dt['Incident Types'])
@@ -170,6 +170,63 @@ class Controller():
         col = self.db_connect()['pipeline']
         col.find_one_and_delete({"Incident Number": inc_num})
 
+    def column_summary(self, colmName):
+        col = self.db_connect()['pipeline']
+        list_result = col.aggregate([
+            {"$group": {
+                "_id": {colmName: "$" + colmName},
+                "count": {"$sum": 1},
+            }},
+        ])
+        summary_list = []
+        for item in list_result:
+            column_item = item["_id"][colmName]
+            if column_item == colmName:
+                continue
+            summary_list.append([column_item, item["count"]])
+        return summary_list
+
+    def extract_year(self, df):
+        temp = pd.DatetimeIndex(df['Reported Date']).year
+        year = []
+        for yr in temp:
+            if yr not in year:
+                year.append(yr)
+        return year
+
+    def date_col_summary(self):
+        dateList = self.column_summary("Reported Date")
+        data = []
+        for result in dateList:
+            datetime_object = datetime.strptime(result[0], '%m/%d/%Y')
+            year = datetime_object.year
+            find = False
+            for da in data:
+                if da[0] == year:
+                    da[1] += result[1]
+                    find = True
+                    break
+            if not find:
+                data.append([year, result[1]])
+        return data
+
+    def incident_per_year(self):
+        data = self.date_col_summary()
+        inc_per_yr = []
+        for i in data:
+            inc_per_yr.append(i)
+        return inc_per_yr
+
+    def significance_count_per_year(self):
+        sig_per_year = []
+        df["Year"] = pd.DatetimeIndex(df['Reported Date']).year
+        print(df["Year"].count())
+        per = df['Significant'].value_counts(normalize=True)
+        print(per)
+        date = self.date_col_summary()
+        return sig_per_year
+
+
     def main(self):
         '''
         this is the main method to run
@@ -194,8 +251,47 @@ c = Controller()
 db = c.db_connect()
 col = db['pipeline']
 df = c.all_in_df()
-temp = pd.DatetimeIndex(df['Reported Date']).year
-print(temp[0], temp[1])
+# temp = pd.DatetimeIndex(df['Reported Date']).year
+# temp= c.column_summary("Incident Types")
+# print(type(temp))
+# for t in temp:
+#     print(t[0])
+# yyy=c.get_X_Y("Incident Types")
+# print(type(yyy))
+# for yy in yyy:
+#     print(yy)
+# year = c.count_year()
+# year = c.extract_year(df)
+# t = c.get_sig_year()
+# n = c.significance_count_per_year()
+# for u in t:
+#     print(u)
+# print(type(year))
+# for y in year:
+#     print(y)
+# temp = c.extract_year(df)
+# print(type(temp))
+# for t in temp:
+#     print(t)
+#
+# u = c.incident_per_year()
+# print(type(u))
+# print(len(u))
+# for i in u:
+#     print(i[1])
+
+# h = c.column_summary("Significant")
+
+# h = c.significance_count_per_year()
+# print(type(h))
+# for o in h:
+#     print(o)
+# year2 = c.extract_year()
+# print(type(year2))
+# for yr in year2:
+#     print(yr)
+
+# print(temp[0], temp[1])
 # print(c.all_in_df())
 # t = c.search_record("INC2007-097")
 # c.update_record()
